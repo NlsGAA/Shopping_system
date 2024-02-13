@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+include_once('includes/login_verification.php');
 include_once('db_connect.php');
 
 function clearString($input)
@@ -35,12 +36,13 @@ if (isset($_POST['btn_login'])) {
 
             if (mysqli_num_rows($result) == 1) {
                 $dados = mysqli_fetch_array($result);
-
                 $_SESSION['logado'] = array(
                     'id' => $dados['id'],
                     'user' => $dados['user'],
-                    'email' => $dados['email']
+                    'email' => $dados['email'],
+                    'level' => $dados['level']
                 );
+
                 header('location: ../home.php');
             } else {
                 $_SESSION['message'] = array(

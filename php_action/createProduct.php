@@ -14,28 +14,28 @@ function clearString($input)
     return $var;
 }
 
-if (isset($_POST['btn_register'])) {
-    $passCrypt = md5($_POST['password']);
+if (isset($_POST['btn_create_product'])) {
 
-    $user = clearString($_POST['user']);
-    $email = clearString($_POST['email']);
-    $password = clearString($passCrypt);
+    $title = clearString($_POST['title']);
+    $value = clearString($_POST['value']);
+    $description = clearString($_POST['description']);
 
-    $sql = "INSERT INTO costumer_register (user, email, password, level) VALUES ('$user', '$email', '$password', 1)";
+
+    $sql = "INSERT INTO itens (title, value, description) VALUES ('$title', '$value', '$description')";
 
     if (mysqli_query($conn, $sql)) {
         $_SESSION['message'] = array(
             'status' => true,
-            'message' => 'Usuário cadastrado com sucesso',
+            'message' => 'Produto cadastrado com sucesso',
             'cod' => 00001
         );
-        header('location: ../login.php');
+        header('location: ../home.php');
     } else {
         $_SESSION['message'] = array(
             'status' => false,
-            'message' => 'Não foi possível cadastrar o usuário',
+            'message' => 'Não foi possível cadastrar o produto',
             'cod' => 00002
         );
-        header('location: ../register.php');
+        header('location: ../product_form.php');
     }
 }
