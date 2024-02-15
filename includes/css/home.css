@@ -1,0 +1,21 @@
+#cart_left_menu {
+  display: flex;
+  background-color: #eee;
+  height: auto;
+  min-height: 100vh;
+}
+
+.cart_element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.itens_info_cart {
+  background-color: #ddd;
+  padding: 1px;
+}
+
+.content_cart_body {
+  width: 100%;
+}
