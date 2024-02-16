@@ -7,7 +7,7 @@ include_once('includes/header.php');
 include_once('includes/navbar.php');
 
 if (isset($_SESSION['message'])) {
-    echo $_SESSION['message']['message'];
+    echo "<div class='action_message'>" . $_SESSION['message']['message'] . "</div>";
 }
 unset($_SESSION['message']);
 
@@ -23,7 +23,7 @@ $result_cart = mysqli_query($conn, $cart_itens);
 
 <div class="row">
     <!-- left bar filter -->
-    <div class="col-md-2" id="cart_left_menu">
+    <div class="col-md-2" id="cart_left_menu" style="display: none;">
         <div class="cart_element">
             <h3>Meu carrinho:</h3>
             <div class="content_cart_body">
@@ -74,6 +74,24 @@ $result_cart = mysqli_query($conn, $cart_itens);
                     endwhile;
                 endif;
                 ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 container-fluid" id="option_menu_left" style="display:none;" ;>
+        <div class="menu_option">
+            <div class="list_option">
+                <h5>Opções:</h5>
+                <div class="select_itens_option">
+                    <ul>
+                        <li>Histórico de compra</li>
+                        <li>Cartão</li>
+                        <li>Configurações</li>
+                        <a href="pages/accountInfo.php">
+                            <li id="account_info.php">Dados da conta</li>
+                        </a>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

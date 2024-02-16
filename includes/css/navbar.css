@@ -1,0 +1,10 @@
+.hamburguer_option:hover {
+  cursor: pointer;
+}
+
+.navbar_content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+}
