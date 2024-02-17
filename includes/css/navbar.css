@@ -1,10 +1,6 @@
-.hamburguer_option:hover {
-  cursor: pointer;
-}
-
-.navbar_content {
+.navbar {
+  height: 50px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  margin: auto;
+  justify-content: center;
 }

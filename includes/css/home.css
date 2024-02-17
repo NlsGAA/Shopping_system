@@ -1,14 +1,22 @@
+body {
+  background-color: #f8f9fa; /* Cor de fundo suave */
+}
+
 #cart_left_menu {
   display: flex;
-  background-color: #eee;
   height: auto;
   min-height: 100vh;
+  background-color: #ffffff; /* Cor de fundo do carrinho */
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 10px;
 }
 
 .cart_element {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .itens_info_cart {
@@ -18,6 +26,8 @@
 
 .content_cart_body {
   width: 100%;
+  max-height: 300px; /* Altura máxima do conteúdo do carrinho */
+  overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo for maior do que a altura máxima */
 }
 .action_message {
   text-align: center;
@@ -43,10 +53,98 @@ ul li {
 }
 
 ul li:hover {
-  background-color: #fff;
+  background-color: #aaa;
   cursor: pointer;
 }
 
 .select_itens_option {
   width: 100%;
+}
+
+/* Estilo para os cards de produtos */
+.card {
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  background-color: #ffffff; /* Cor de fundo do card */
+}
+
+.card-margin {
+  margin: 30px;
+}
+
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover; /* Garante que a imagem se ajuste ao tamanho do card */
+  /* height: 200px; Altura fixa para a imagem */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-text {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #343a40; /* Cor do texto */
+}
+
+.iten_value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #198754; /* Cor do preço */
+}
+
+.btn-warning {
+  background-color: #ffc107; /* Cor de fundo do botão */
+  border-color: #ffc107; /* Cor da borda do botão */
+}
+
+.btn-warning:hover {
+  background-color: #ffcd39; /* Cor de fundo do botão ao passar o mouse */
+  border-color: #ffcd39; /* Cor da borda do botão ao passar o mouse */
+}
+
+.btn-warning svg {
+  margin-bottom: 3px;
+  margin-left: 5px;
+}
+
+.itens_info_cart {
+  margin-bottom: 10px;
+}
+
+/* Estilo para o menu de opções no lado esquerdo */
+#option_menu_left {
+  background-color: #ffffff; /* Cor de fundo do menu de opções */
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 10px;
+}
+
+.menu_option {
+  margin-bottom: 20px;
+}
+
+.list_option {
+  margin-bottom: 10px;
+}
+
+.list_option h5 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #343a40; /* Cor do texto */
+}
+
+.select_itens_option ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.select_itens_option ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #6c757d; /* Cor do texto */
 }

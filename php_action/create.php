@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-include_once('includes/login_verification.php');
 include_once("db_connect.php");
 
 function clearString($input)
@@ -17,11 +16,14 @@ function clearString($input)
 if (isset($_POST['btn_register'])) {
     $passCrypt = md5($_POST['password']);
 
-    $user = clearString($_POST['user']);
+    $type_user = clearString($_POST['type']);
+    $cpfCNPJ = clearString($_POST['cpf']) or clearString($_POST['CNPJ']);
+    $birthdate = clearString($_POST['birthdate']);
+    $address = clearString($_POST['address']) or clearString($_POST['companyAddress']);
     $email = clearString($_POST['email']);
     $password = clearString($passCrypt);
 
-    $sql = "INSERT INTO costumer_register (user, email, password, level) VALUES ('$user', '$email', '$password', 1)";
+    $sql = "INSERT INTO costumer_register (type_user, cpfCNPJ, birthdate, address, email, password) VALUES ('$type_user', '$cpfCNPJ', '$birthdate', '$address', '$email', '$password')";
 
     if (mysqli_query($conn, $sql)) {
         $_SESSION['message'] = array(

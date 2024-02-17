@@ -9,19 +9,31 @@ session_unset();
 include_once('includes/header.php');
 ?>
 
-
-<div class="col-md-6 offset-md-3">
+<!-- Conteúdo da tela de login -->
+<div class="col-md-6 offset-md-3" id="login-body">
     <div class="container">
+        <div class="login-header">
+            <h2>Bem-vindo de volta!</h2>
+            <p>Por favor, faça login para continuar.</p>
+        </div>
         <form action="php_action/verify_login.php" method="POST">
             <div class="login-body">
-                <label>Email:</label>
-                <input type="email" name="email">
-                <label>Senha:</label>
-                <input type="password" name="password">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+
                 <button class="btn btn-success" type="submit" name="btn_login">Entrar</button>
             </div>
         </form>
+        <div class="signup-link">
+            <p>Não tem uma conta? <a href="register.php">Cadastre-se aqui</a></p>
+        </div>
     </div>
 </div>
+
+</div>
+
 
 <?php include_once('includes/footer.php'); ?>

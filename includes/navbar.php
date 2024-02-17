@@ -1,16 +1,33 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<?php
+
+if (isset($_POST['btn_home'])) {
+    header("location: http://localhost/sistema_de_compra/home.php");
+    exit();
+}
+?>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <div class="navbar-nav navbar_content">
-            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-border-width hamburguer_option" viewBox="0 0 16 16">
-                <path d="M0 3.5A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5zm0 5A.5.5 0 0 1 .5 8h15a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5" />
-            </svg>
-            <a class="nav-link" href="#">Home</a>
-            <a class="nav-link cart_button" href="#">Meus pedidos</a>
-            <?php
-            if ($_SESSION['logado']['level'] == 2) {
-                echo '<a class="nav-link btn btn-success" href="product_form.php">+Adicionar Produtos</a>';
-            }
-            ?>
+        <a class="navbar-brand hamburguer_option" href="#">Sistema de Compras</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+                    <li class="nav-item">
+                        <button class="nav-link" href="#" name="btn_home">Home</button>
+                    </li>
+                </form>
+                <li class="nav-item">
+                    <a class="nav-link cart_button" href="#">Meus Pedidos</a>
+                </li>
+                <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-success" href="product_form.php">+ Adicionar Produtos</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
 </nav>

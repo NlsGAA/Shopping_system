@@ -19,6 +19,10 @@ $result = mysqli_query($conn, $sql);
 $cart_itens = "SELECT * FROM cart WHERE user_id = '{$_SESSION['logado']['id']}'";
 $result_cart = mysqli_query($conn, $cart_itens);
 
+//Select user commentary
+$commentary = "SELECT * FROM user_product_opnion";
+$commentary_result = mysqli_query($conn, $commentary);
+
 ?>
 
 <div class="row">
@@ -72,6 +76,7 @@ $result_cart = mysqli_query($conn, $cart_itens);
                         </div>
                 <?php
                     endwhile;
+                else : echo '<hr> Carrinho Vazio';
                 endif;
                 ?>
             </div>
@@ -90,6 +95,7 @@ $result_cart = mysqli_query($conn, $cart_itens);
                         <a href="pages/accountInfo.php">
                             <li id="account_info.php">Dados da conta</li>
                         </a>
+                        <li name="btn_logout">Sair</li>
                     </ul>
                 </div>
             </div>
@@ -102,12 +108,12 @@ $result_cart = mysqli_query($conn, $cart_itens);
 
             while ($dados = mysqli_fetch_array($result)) :
         ?>
-                <div class="card" style="max-width: 300px;">
+                <div class="card card-margin" style="max-width: 300px;" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $dados['id'] ?>">
 
-                    <?php if ($_SESSION['logado']['level'] == 2) : ?>
-                        <div class="container action_icon offset-md-8">
+                    <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
+                        <div class="action_icon offset-md-8">
                             <a href="edit_product_form.php?id=<?= $dados['id'] ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="b i bi-pencil-fill" viewBox="0 0 16 16">
                                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                                 </svg>
                             </a>
@@ -125,7 +131,7 @@ $result_cart = mysqli_query($conn, $cart_itens);
                         <h4 class="iten_value"><?= 'R$', $dados['value']; ?></h4>
                         <p class="card-text"><?= $dados['description']; ?></p>
                     </div>
-                    <div class="container">
+                    <div class="add_to_cart">
                         <a class="btn btn-warning offset-md-1" type="submit" href="php_action/add_to_cart.php?id=<?= $dados['id'] ?>">Adicionar ao carrinho
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
                                 <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
@@ -156,6 +162,52 @@ $result_cart = mysqli_query($conn, $cart_itens);
                         </div>
                     </div>
                 </div>
+
+                <!-- Info Product Modal -->
+                <div class="col-md-12 modal fade" id="infoProductModal<?= $dados['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h4 class="modal-title"><?= $dados['title'] ?> - R$ <?= $dados['value'] ?></h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="lead"><?= $dados['description'] ?></p>
+                                <hr>
+                                <h5 class="mb-3">Comentários:</h5>
+                                <div class="comments">
+                                    <?php if (mysqli_num_rows($commentary_result) > 0) :
+                                        while ($commentary_data = mysqli_fetch_array($commentary_result)) :
+                                    ?>
+                                            <div class="comment mb-3">
+                                                <p class="fw-bold"><?= $commentary_data['user_name'] ?>:</p>
+                                                <p><?= $commentary_data['user_commentary'] ?></p>
+                                            </div>
+                                    <?php
+                                        endwhile;
+                                    else :
+                                        echo "<p class='text-muted'>Nenhum comentário ainda.</p>";
+                                    endif;
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex">
+                                <form action="php_action/user_product_opnion.php" method="POST" class="flex-grow-1">
+                                    <div class="mb-3">
+                                        <label for="comment" class="form-label">Deixe seu comentário:</label>
+                                        <textarea class="form-control" id="comment" name="user_commentary" rows="3" required></textarea>
+                                    </div>
+                                    <input type="hidden" name="id" value="<?= $dados['id'] ?>">
+                                    <button type="submit" name="btn_user_product_opnion" class="btn btn-primary">Publicar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
         <?php
             endwhile;
         } else {

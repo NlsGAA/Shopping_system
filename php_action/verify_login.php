@@ -38,9 +38,8 @@ if (isset($_POST['btn_login'])) {
                 $dados = mysqli_fetch_array($result);
                 $_SESSION['logado'] = array(
                     'id' => $dados['id'],
-                    'user' => $dados['user'],
                     'email' => $dados['email'],
-                    'level' => $dados['level']
+                    'type_user' => $dados['type_user']
                 );
 
                 header('location: ../home.php');
