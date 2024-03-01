@@ -17,7 +17,7 @@ if (isset($_SESSION['message'])) {
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Valor:</label>
-        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Valor a ser cobrado" name="value">
+        <input type="number" step=".01" min=".01" class="form-control" id="exampleFormControlInput1" placeholder="Valor a ser cobrado" name="value">
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Descrição:</label>

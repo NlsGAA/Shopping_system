@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include_once('includes/login_verification.php');
+include_once __DIR__ . ("/db_connect.php");
 include_once('db_connect.php');
 
 function clearString($input)
@@ -28,18 +28,32 @@ if (isset($_POST['btn_login'])) {
         );
         header('location: ../login.php');
     } else {
-        $sql = "SELECT email FROM costumer_register WHERE email = '$email'";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $sql = "SELECT * FROM costumer_register WHERE email = '$email' AND password = '$password'";
-            $result = mysqli_query($conn, $sql);
+        $sql = $pdo->prepare(
+            "SELECT email FROM costumer_register WHERE email = :email 
+            UNION 
+            SELECT email FROM company_register WHERE email = :email"
+        );
+        $sql->bindValue(':email', $email);
+        $sql->execute();
 
-            if (mysqli_num_rows($result) == 1) {
-                $dados = mysqli_fetch_array($result);
+        if ($sql->rowCount() > 0) {
+            $sql = $pdo->prepare(
+                "SELECT id, email, type_user FROM costumer_register WHERE email = :email AND password = :password 
+                UNION 
+                SELECT id, email, type_user FROM company_register WHERE email = :email AND password = :password"
+            );
+            $sql->bindValue(':email', $email);
+            $sql->bindValue(':password', $password);
+            $success = $sql->execute();
+
+            if ($sql->rowCount() == 1) {
+                $data_str = json_encode($sql->fetch(PDO::FETCH_ASSOC));
+                $data = json_decode($data_str);
+                // $dados = mysqli_fetch_array($result);
                 $_SESSION['logado'] = array(
-                    'id' => $dados['id'],
-                    'email' => $dados['email'],
-                    'type_user' => $dados['type_user']
+                    'id' => $data->id,
+                    'email' => $data->email,
+                    'type_user' => $data->type_user
                 );
 
                 header('location: ../home.php');

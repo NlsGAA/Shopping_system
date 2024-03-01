@@ -1,0 +1,13 @@
+{
+  "name": "nico/sistema_de_compra",
+  "description": "Shopping system for company",
+  "autoload": {
+    "psr-4": {
+      "Nico\\SistemaDeCompra\\": "src/"
+    },
+    "files": [
+      "php_action/db_connect.php"
+    ]
+  },
+  "require": {}
+}

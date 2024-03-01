@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+include_once __DIR__ . ("/db_connect.php");
 include_once("db_connect.php");
 
 function clearString($input)
@@ -15,14 +16,19 @@ function clearString($input)
 
 if (isset($_POST['btn_edit_product'])) {
 
-    $title = clearString($_POST['title']);
-    $value = clearString($_POST['value']);
-    $description = clearString($_POST['description']);
-    $id = clearString($_POST['id']);
+    $title = clearString(filter_input(INPUT_POST, 'title'));
+    $value = clearString(filter_input(INPUT_POST, 'value'));
+    $description = clearString(filter_input(INPUT_POST, 'description'));
+    $id = clearString(filter_input(INPUT_POST, 'id'));
 
-    $sql = "UPDATE itens SET title = '$title', description = '$description', value = '$value' WHERE id = '$id'";
+    $sql = $pdo->prepare("UPDATE itens SET title = :title, description = :description, value = :value WHERE id = :id");
+    $sql->bindValue(':title', $title);
+    $sql->bindValue(':description', $description);
+    $sql->bindValue(':value', $value);
+    $sql->bindValue(':id', $id);
+    $success = $sql->execute();
 
-    if (mysqli_query($conn, $sql)) {
+    if ($success && $sql->rowCount() > 0) {
         $_SESSION['message'] = array(
             'status' => true,
             'message' => 'Produto editado com sucesso',

@@ -1,7 +1,7 @@
 <?php
 
-$server = "mysql:host=localhost; dbname=cadastro";
-$db_name = "root";
+$server = "mysql:host=XXX; dbname=XXX";
+$db_name = "XXX";
 $db_password = "";
 
 

@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-include_once('includes/login_verification.php');
+include_once __DIR__ . ("/db_connect.php");
+include_once __DIR__ . ('/../includes/login_verification.php');
 include_once("db_connect.php");
 
 function clearString($input)
@@ -17,13 +18,17 @@ function clearString($input)
 if (isset($_POST['btn_create_product'])) {
 
     $title = clearString($_POST['title']);
-    $value = clearString($_POST['value']);
+    $value = clearString(number_format($_POST['value'], 2));
     $description = clearString($_POST['description']);
 
 
-    $sql = "INSERT INTO itens (title, value, description) VALUES ('$title', '$value', '$description')";
+    $sql = $pdo->prepare("INSERT INTO itens (title, value, description) VALUES (:title, :value, :description)");
+    $sql->bindValue(':title', $title);
+    $sql->bindValue(':value', $value);
+    $sql->bindValue(':description', $description);
+    $success = $sql->execute();
 
-    if (mysqli_query($conn, $sql)) {
+    if ($success && $sql->rowCount() > 0) {
         $_SESSION['message'] = array(
             'status' => true,
             'message' => 'Produto cadastrado com sucesso',

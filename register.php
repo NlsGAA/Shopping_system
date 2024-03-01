@@ -1,9 +1,10 @@
 <?php
+session_start();
 
 if (isset($_SESSION['message'])) {
     echo $_SESSION['message']['message'];
+    unset($_SESSION['message']);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -54,11 +55,11 @@ if (isset($_SESSION['message'])) {
                 </div>
                 <div class="form-group">
                     <label for="companyName">Razão social:</label>
-                    <input type="text" class="form-control" id="companyName" name="companyName"> <!--Colocar este campo no banco de dados -->
+                    <input type="text" class="form-control" id="companyName" name="companyName">
                 </div>
                 <div class="form-group">
                     <label for="fantasyName">Nome fantasia:</label>
-                    <input type="text" class="form-control" id="fantasyName" name="fantasyName"> <!--Colocar este campo no banco de dados -->
+                    <input type="text" class="form-control" id="fantasyName" name="fantasyName">
                 </div>
             </div>
             <div class="form-group">
@@ -70,6 +71,7 @@ if (isset($_SESSION['message'])) {
                 <input type="password" class="form-control" id="password" name="password">
             </div>
             <button type="submit" class="btn btn-primary" name="btn_register">Cadastrar</button>
+            <a href="login.php">Já possui uma conta?</a>
         </form>
     </div>
 

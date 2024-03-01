@@ -1,14 +1,15 @@
 <?php
 session_start();
 
+include_once __DIR__ . ("/db_connect.php");
 include_once('db_connect.php');
 
 if (isset($_POST['btn_delete_product'])) {
-    $id = mysqli_escape_string($conn, $_POST['id']);
+    $id = filter_input(INPUT_POST, 'id');
 
-    $sql = "DELETE FROM itens WHERE id='$id'";
+    $sql = $pdo->query("DELETE FROM itens WHERE id='$id'");
 
-    if (mysqli_query($conn, $sql)) {
+    if ($sql->rowCount() > 0) {
         $_SESSION['message'] = array(
             'status' => true,
             'message' => 'Produto deletado com sucesso',
