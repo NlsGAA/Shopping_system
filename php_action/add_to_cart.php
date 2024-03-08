@@ -4,7 +4,9 @@ session_start();
 include_once __DIR__ . ("/db_connect.php");
 include_once("db_connect.php");
 
-if (empty($_GET['id'])) {
+$product_id = filter_input(INPUT_GET, 'id');
+
+if (empty($product_id)) {
     $_SESSION['message'] = array(
         'status' => false,
         'message' => 'Não foi possível encontrar o produto desejado!',
@@ -13,20 +15,8 @@ if (empty($_GET['id'])) {
     header('location: ../home.php');
 }
 
-function clearString($input)
-{
-    global $conn;
-    //con db
-    $var = mysqli_escape_string($conn, $input);
-    //xss - cross site scripting
-    $var = htmlspecialchars($var);
-    return $var;
-}
-
-if (isset($_GET['id'])) {
-
-    $user_id = clearString($_SESSION['logado']['id']);
-    $product_id = clearString($_GET['id']);
+if (isset($product_id)) {
+    $user_id = $_SESSION['logado']['id'];
 
     $sql = $pdo->prepare("INSERT INTO cart (user_id, product_id) VALUES (:user_id, :product_id)");
     $sql->bindValue(':user_id', $user_id);

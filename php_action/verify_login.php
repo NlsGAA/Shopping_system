@@ -4,21 +4,11 @@ session_start();
 include_once __DIR__ . ("/db_connect.php");
 include_once('db_connect.php');
 
-function clearString($input)
-{
-    global $conn;
-    //con db
-    $var = mysqli_escape_string($conn, $input);
-    //xss - cross site scripting
-    $var = htmlspecialchars($var);
-    return $var;
-}
-
 if (isset($_POST['btn_login'])) {
-    $passCrypt = md5($_POST['password']);
 
-    $email = clearString($_POST['email']);
-    $password = clearString($passCrypt);
+    $email = filter_input(INPUT_POST, 'email');
+    $passCrypt = md5(filter_input(INPUT_POST, 'password'));
+    $password = $passCrypt;
 
     if (empty($email) or empty($password)) {
         $_SESSION['message'] = array(

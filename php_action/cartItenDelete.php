@@ -5,12 +5,14 @@ include_once __DIR__ . ("/db_connect.php");
 include_once('db_connect.php');
 
 if (isset($_POST['btn_delete_item'])) {
-    $id = mysqli_escape_string($conn, $_POST['id']);
+    $id = filter_input(INPUT_POST, 'id');
 
-    $sql = $pdo->query("DELETE FROM cart WHERE product_id='$id' LIMIT 1");
+    $sql = $pdo->prepare("DELETE FROM cart WHERE product_id = :id LIMIT 1");
+    $sql->bindValue(':id', $id);
+    $success = $sql->execute();
 
 
-    if ($sql->rowCount() > 0) {
+    if ($success && $sql->rowCount() > 0) {
         $_SESSION['message'] = array(
             'status' => true,
             'message' => 'Produto deletado com sucesso',

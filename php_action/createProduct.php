@@ -4,43 +4,39 @@ session_start();
 include_once __DIR__ . ("/db_connect.php");
 include_once __DIR__ . ('/../includes/login_verification.php');
 include_once("db_connect.php");
+require __DIR__ . "/../dao/ProductDAO.php";
 
-function clearString($input)
-{
-    global $conn;
-    //con db
-    $var = mysqli_escape_string($conn, $input);
-    //xss - cross site scripting
-    $var = htmlspecialchars($var);
-    return $var;
-}
+$productDao = new ProductDAO($pdo);
 
 if (isset($_POST['btn_create_product'])) {
 
-    $title = clearString($_POST['title']);
-    $value = clearString(number_format($_POST['value'], 2));
-    $description = clearString($_POST['description']);
+    $title = filter_input(INPUT_POST, 'title');
+    $description = filter_input(INPUT_POST, 'description');
+    $value = filter_input(INPUT_POST, 'value');
 
+    if ($productDao->findByTitle($title) ===  false) {
 
-    $sql = $pdo->prepare("INSERT INTO itens (title, value, description) VALUES (:title, :value, :description)");
-    $sql->bindValue(':title', $title);
-    $sql->bindValue(':value', $value);
-    $sql->bindValue(':description', $description);
-    $success = $sql->execute();
+        $newProduct = new Product;
+        $newProduct->setTitle($title);
+        $newProduct->setDescription($description);
+        $newProduct->setValue($value);
 
-    if ($success && $sql->rowCount() > 0) {
+        $productDao->add($newProduct);
+
         $_SESSION['message'] = array(
             'status' => true,
             'message' => 'Produto cadastrado com sucesso',
             'cod' => 00001
         );
         header('location: ../home.php');
+        exit;
     } else {
         $_SESSION['message'] = array(
             'status' => false,
-            'message' => 'Não foi possível cadastrar o produto',
+            'message' => 'Já possui um produto com este nome',
             'cod' => 00002
         );
         header('location: ../product_form.php');
+        exit;
     }
 }

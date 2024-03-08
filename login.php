@@ -23,6 +23,7 @@ include_once('includes/header.php');
 
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required>
+                <input type="checkbox" id="checkPassword" name="typePassword"> Mostrar senha
 
                 <button class="btn btn-success" type="submit" name="btn_login">Entrar</button>
             </div>
@@ -35,5 +36,20 @@ include_once('includes/header.php');
 
 </div>
 
+<script>
+    let password = document.querySelector('#password')
+    let checkbox = document.querySelector('#checkPassword')
+    checkbox.addEventListener('change', function() {
+        if (checkbox.checked) {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    })
+</script>
 
-<?php include_once('includes/footer.php'); ?>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</html>

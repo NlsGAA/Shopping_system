@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('../includes/login_verification.php');
-include_once __DIR__ . ("/../PDOFunction/db_connect.php");
+include_once __DIR__ . ("/../php_action/db_connect.php");
 include_once('../php_action/db_connect.php');
 include_once('../includes/header.php');
 include_once('../includes/navbar.php');
