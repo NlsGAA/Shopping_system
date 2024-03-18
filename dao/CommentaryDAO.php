@@ -11,10 +11,10 @@ class CommentaryDAO implements CommentaryDAOModel
     }
     public function addCommentary(Commentary $commentary)
     {
-        $sql = $this->pdo->prepare("INSERT INTO user_product_opnion (user_name, product_id, commentary_id, user_commentary) VALUES (:user_name, :product_id, :commentary_id, :user_commentary)");
+        $sql = $this->pdo->prepare("INSERT INTO user_product_opnion (user_id, user_name, product_id, user_commentary) VALUES (:user_id, :user_name, :product_id, :user_commentary)");
+        $sql->bindValue(':user_id', $commentary->getAuthorId());
         $sql->bindValue(':user_name', $commentary->getAuthor());
         $sql->bindValue(':product_id', $commentary->getProductId());
-        $sql->bindValue(':commentary_id', $commentary->getId());
         $sql->bindValue(':user_commentary', $commentary->getCommentary());
         $sql->execute();
 
@@ -35,6 +35,7 @@ class CommentaryDAO implements CommentaryDAOModel
 
                 $commentary = new commentary;
                 $commentary->setId($value_commentaryData['id']);
+                $commentary->setAuthorId($value_commentaryData['user_id']);
                 $commentary->setAuthor($value_commentaryData['user_name']);
                 $commentary->setCommentary($value_commentaryData['user_commentary']);
                 $commentary->setCommentaryDate($value_commentaryData['creation_time']);
@@ -48,5 +49,8 @@ class CommentaryDAO implements CommentaryDAOModel
     }
     public function deleteCommentary($id)
     {
+        $sql = $this->pdo->prepare("DELETE FROM user_product_opnion WHERE id = :id");
+        $sql->bindValue(':id', $id);
+        $sql->execute();
     }
 }

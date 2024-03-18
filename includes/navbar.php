@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST['btn_home'])) {
     header("location: http://localhost/sistema_de_compra/home.php");
     exit();
@@ -16,11 +15,11 @@ if (isset($_POST['btn_home'])) {
             <ul class="navbar-nav ml-auto">
                 <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                     <li class="nav-item">
-                        <button class="nav-link" href="#" name="btn_home">Home</button>
+                        <button class="nav-link" href="" name="btn_home">Home</button>
                     </li>
                 </form>
                 <li class="nav-item">
-                    <a class="nav-link cart_button" href="#">Meus Pedidos</a>
+                    <a class="nav-link cart_button" type="button">Meus Pedidos</a>
                 </li>
                 <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
                     <li class="nav-item">

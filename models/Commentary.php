@@ -3,12 +3,12 @@
 class Commentary
 {
 
-    private $product_id;
     private $id;
+    private $author_id;
     private $author;
+    private $product_id;
     private $commentary;
     private $commentary_date;
-    private $commentary_id;
     private $avaliation;
 
     public function setId($id)
@@ -18,6 +18,14 @@ class Commentary
     public function getId()
     {
         return $this->id;
+    }
+    public function setAuthorId($author_id)
+    {
+        $this->author_id = $author_id;
+    }
+    public function getAuthorId()
+    {
+        return $this->author_id;
     }
     public function setProductId($product_id)
     {
@@ -34,7 +42,7 @@ class Commentary
     }
     public function getAuthor()
     {
-        return $this->author;
+        return ucfirst($this->author);
     }
     public function setCommentary($commentary)
     {
@@ -43,14 +51,6 @@ class Commentary
     public function getCommentary()
     {
         return $this->commentary;
-    }
-    public function setCommentaryId($commentary_id)
-    {
-        $this->commentary_id = $commentary_id;
-    }
-    public function getCommentaryId()
-    {
-        return $this->commentary_id;
     }
     public function setAvaliation($avaliation)
     {

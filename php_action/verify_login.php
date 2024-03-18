@@ -7,8 +7,8 @@ include_once('db_connect.php');
 if (isset($_POST['btn_login'])) {
 
     $email = filter_input(INPUT_POST, 'email');
-    $passCrypt = md5(filter_input(INPUT_POST, 'password'));
-    $password = $passCrypt;
+    $passCrypt = filter_input(INPUT_POST, 'password');
+    $password = md5($passCrypt);
 
     if (empty($email) or empty($password)) {
         $_SESSION['message'] = array(

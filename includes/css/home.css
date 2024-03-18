@@ -1,14 +1,15 @@
 body {
   background-color: #f8f9fa; /* Cor de fundo suave */
+  overflow-x: hidden;
 }
 
 #cart_left_menu {
   display: flex;
   height: auto;
   min-height: 100vh;
-  background-color: #ffffff; /* Cor de fundo do carrinho */
+  background-color: #ffffff;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
@@ -20,14 +21,13 @@ body {
 }
 
 .itens_info_cart {
-  background-color: #ddd;
-  padding: 1px;
+  background-color: #ffffff;
 }
 
 .content_cart_body {
   width: 100%;
-  max-height: 300px; /* Altura máxima do conteúdo do carrinho */
-  overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo for maior do que a altura máxima */
+  max-height: 400px;
+  overflow-y: auto;
 }
 .action_message {
   text-align: center;
@@ -63,22 +63,27 @@ ul li:hover {
 
 /* Estilo para os cards de produtos */
 .card {
-  margin-bottom: 20px;
   border: none;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  background-color: #ffffff; /* Cor de fundo do card */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  margin: 30px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.card-margin {
-  margin: 30px;
+.card-container {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .card-img-top {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  object-fit: cover; /* Garante que a imagem se ajuste ao tamanho do card */
-  /* height: 200px; Altura fixa para a imagem */
+  object-fit: cover;
+  /* height: 200px; */
 }
 
 .card-body {
@@ -88,23 +93,23 @@ ul li:hover {
 .card-text {
   margin-bottom: 15px;
   font-size: 18px;
-  color: #343a40; /* Cor do texto */
+  color: #343a40;
 }
 
 .iten_value {
   font-size: 20px;
   font-weight: bold;
-  color: #198754; /* Cor do preço */
+  color: #198754;
 }
 
 .btn-warning {
-  background-color: #ffc107; /* Cor de fundo do botão */
-  border-color: #ffc107; /* Cor da borda do botão */
+  background-color: #ffc107;
+  border-color: #ffc107;
 }
 
 .btn-warning:hover {
-  background-color: #ffcd39; /* Cor de fundo do botão ao passar o mouse */
-  border-color: #ffcd39; /* Cor da borda do botão ao passar o mouse */
+  background-color: #ffcd39;
+  border-color: #ffcd39;
 }
 
 .btn-warning svg {
@@ -118,9 +123,9 @@ ul li:hover {
 
 /* Estilo para o menu de opções no lado esquerdo */
 #option_menu_left {
-  background-color: #ffffff; /* Cor de fundo do menu de opções */
+  background-color: #ffffff;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
@@ -135,7 +140,7 @@ ul li:hover {
 .list_option h5 {
   margin-bottom: 15px;
   font-size: 18px;
-  color: #343a40; /* Cor do texto */
+  color: #343a40;
 }
 
 .select_itens_option ul {
@@ -146,5 +151,5 @@ ul li:hover {
 .select_itens_option ul li {
   margin-bottom: 10px;
   font-size: 16px;
-  color: #6c757d; /* Cor do texto */
+  color: #6c757d;
 }

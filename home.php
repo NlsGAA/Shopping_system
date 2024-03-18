@@ -1,12 +1,11 @@
 <?php
 session_start();
 
+include_once('includes/header.php');
 include_once('includes/login_verification.php');
-include_once('php_action/mysqli_connect.php');
 include_once('php_action/db_connect.php');
 require __DIR__ . "/dao/ProductDAO.php";
 require __DIR__ . "/dao/CommentaryDAO.php";
-include_once('includes/header.php');
 include_once('includes/navbar.php');
 
 if (isset($_SESSION['message'])) {
@@ -25,14 +24,11 @@ $commentaryDao = new CommentaryDAO($pdo);
 
     <?php include_once('includes/left_menu.php'); ?>
 
-    <div class="col-md-10" style="height: auto;">
+    <div class="col-md-10 card-container flex" style="height: 100vh;">
         <?php
         if (!empty($products)) {
 
             foreach ($products as $key_product => $dados) :
-                //Select user commentary
-                // $commentary = "SELECT * FROM user_product_opnion WHERE product_id = '{$dados->getId()}'";
-                // $commentary_result = mysqli_query($conn, $commentary);
                 $commentary = $commentaryDao->commentaryInProduct($dados->getId());
                 if (is_array($commentary)) {
                     $num_comments = count($commentary);
@@ -40,7 +36,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                     $num_comments = 0;
                 }
         ?>
-                <div class="card card-margin" style="max-width: 300px;" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $dados->getId() ?>">
+                <div class="card card-margin" style="max-width: 270px; min-width: 270px; height:auto" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $dados->getId() ?>">
 
                     <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
                         <div class="action_icon offset-md-8">
@@ -102,6 +98,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                                 <h4 class="modal-title"><?= $dados->getTitle() ?> - R$ <?= $dados->getValue() ?></h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+
                             <div class="modal-body">
                                 <p class="lead"><?= $dados->getDescription() ?></p>
                                 <hr>
@@ -111,10 +108,22 @@ $commentaryDao = new CommentaryDAO($pdo);
                                     if ($num_comments > 0) :
                                         foreach ($commentary as $key_commentary => $commentary_data) :
                                     ?>
-                                            <div class="comment mb-3">
+                                            <div class="comment mb-3 d-flex justify-content-between align-items-center">
                                                 <span class="fw-bold"><?= $commentary_data->getAuthor() . ' ' . date("H:i:s", strtotime($commentary_data->getCommentaryDate())) ?></span>
-                                                <p class='text-muted'><?= $commentary_data->getCommentary() ?></p>
+                                                <?php if ($_SESSION['logado']['id'] === $commentary_data->getAuthorId()) : ?>
+                                                    <span class="dropdown">
+                                                        <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                                            </svg>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="php_action/deleteCommentary.php?id= <?= $commentary_data->getId() ?>">Excluir</a></li>
+                                                        </ul>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
+                                            <p class='text-muted'><?= $commentary_data->getCommentary() ?></p>
                                     <?php
                                         endforeach;
                                     else :
@@ -123,6 +132,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                                     ?>
                                 </div>
                             </div>
+
                             <div class="modal-footer d-flex">
                                 <form action="php_action/user_product_opnion.php" method="POST" class="flex-grow-1">
                                     <div class="mb-3">
@@ -142,7 +152,6 @@ $commentaryDao = new CommentaryDAO($pdo);
 
         <?php
             endforeach;
-            // endwhile;
         } else {
             echo 'Ainda não há nenhum item registrado!';
         }
