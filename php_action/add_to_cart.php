@@ -17,11 +17,18 @@ if (empty($product_id)) {
 
 if (isset($product_id)) {
     $user_id = $_SESSION['logado']['id'];
+    $quantity = filter_input(INPUT_POST, 'quantity');
+    $i = 1;
+    $observation = filter_input(INPUT_POST, 'observation');
 
-    $sql = $pdo->prepare("INSERT INTO cart (user_id, product_id) VALUES (:user_id, :product_id)");
-    $sql->bindValue(':user_id', $user_id);
-    $sql->bindValue(':product_id', $product_id);
-    $success = $sql->execute();
+    while ($i <= $quantity) {
+        $sql = $pdo->prepare("INSERT INTO cart (user_id, product_id, observation) VALUES (:user_id, :product_id, :observation)");
+        $sql->bindValue(':user_id', $user_id);
+        $sql->bindValue(':product_id', $product_id);
+        $sql->bindValue(':observation', $observation);
+        $success = $sql->execute();
+        $i++;
+    }
 
 
     if ($success && $sql->rowCount() > 0) {

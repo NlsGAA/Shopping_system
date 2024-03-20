@@ -45,6 +45,34 @@ class ProductDAO implements ProductDAOModel
 
         return $productSelected;
     }
+    public function findPurchaseHistory($user_id)
+    {
+        $productBought = [];
+
+        $sql = $this->pdo->prepare("SELECT * FROM customer_purchase WHERE user_id=:user_id");
+        $sql->bindValue(':user_id', $user_id);
+        $sql->execute();
+        if ($sql->rowCount() > 0) {
+            $commentaryData = $sql->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($commentaryData as $key_commentaryData => $value_commentaryData) {
+                // $dateTime = $value_commentaryData['purchase_date'];
+                // $dateObject = DateTime::createFromFormat('d/m/Y H:i:s', $dateTime);
+                // $date = $dateObject->format('d/m/Y H:i:s');
+
+                $commentary = new Product;
+                $commentary->setId($value_commentaryData['id']);
+                $commentary->setTitle($value_commentaryData['title']);
+                $commentary->setDescription($value_commentaryData['description']);
+                $commentary->setValue($value_commentaryData['value']);
+                $commentary->setPurchase_date($value_commentaryData['purchase_date']);
+
+                $productBought[] = $commentary;
+            }
+        } else {
+            return 0;
+        }
+        return $productBought;
+    }
     public function findById($id)
     {
         $sql = $this->pdo->prepare("SELECT * FROM itens WHERE id = :id");

@@ -36,7 +36,8 @@ class Cart_itens
 interface Cart_action
 {
     function takeItensByUserId($user_id);
+    function takeItenInfoByProductId($product_id);
+    function recordCustomerPurchase($user_id);
     function deleteItenById($product_id);
     function deleteAllItens($user_id);
-    function takeItenInfoByProductId($product_id);
 }

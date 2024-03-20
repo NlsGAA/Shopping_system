@@ -67,7 +67,7 @@ $cart_itens = $productDao->takeItensByUserId($_SESSION['logado']['id']);
                     endforeach;
                 endforeach;
                 echo "<p>Total: R$" . number_format($total_price, 2) . "</p>";
-                echo '<a href="">Comprar/Pagar</a>';
+                echo '<a href="" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Comprar/Pagar</a>';
             else : echo "<hr> <p class='text-muted'>Carrinho vazio</p>";
             endif;
             ?>
@@ -82,7 +82,9 @@ $cart_itens = $productDao->takeItensByUserId($_SESSION['logado']['id']);
             <h5>Opções:</h5>
             <div class="select_itens_option">
                 <ul>
-                    <li>Histórico de compra</li>
+                    <a href="http://localhost/sistema_de_compra/purchaseHistory.php">
+                        <li>Histórico de compra</li>
+                    </a>
                     <li>Cartão</li>
                     <li>Configurações</li>
                     <a href="../sistema_de_compra/accountInfo.php">
@@ -92,6 +94,25 @@ $cart_itens = $productDao->takeItensByUserId($_SESSION['logado']['id']);
                         <li name="btn_logout">Sair</li>
                     </a>
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Payment Confirm -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de pagamento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Deseja confirmar o pagamento?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Sair</button>
+                <a href="http://localhost/sistema_de_compra/php_action/cartDeleteAllItens.php?ConfirmPayment=true" class="btn btn-info">Confirmar pagamento</a>
             </div>
         </div>
     </div>

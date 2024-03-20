@@ -9,7 +9,7 @@ require __DIR__ . "/dao/CommentaryDAO.php";
 include_once('includes/navbar.php');
 
 if (isset($_SESSION['message'])) {
-    echo "<div class='action_message'>" . $_SESSION['message']['message'] . "</div>";
+    echo "<div class='action_message action_messagejs'>" . $_SESSION['message']['message'] . "</div>";
 }
 unset($_SESSION['message']);
 
@@ -21,8 +21,26 @@ $commentaryDao = new CommentaryDAO($pdo);
 ?>
 
 <div class="row">
+    <?php
+    include_once('includes/left_menu.php');
 
-    <?php include_once('includes/left_menu.php'); ?>
+    if (isset($_SESSION['payment'])) : ?>
+
+        <div class='overlay action_messagejs'>";
+            <div class='payment_modal action_messagejs'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                </svg>
+                <p id="payment_message">
+                    <?= $_SESSION['payment']['message'] ?>
+                </p>
+            </div>
+        </div>
+
+    <?php
+        unset($_SESSION['payment']);
+    endif; ?>
 
     <div class="col-md-10 card-container flex" style="height: 100vh;">
         <?php
@@ -60,7 +78,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                         <p class="card-text"><?= $dados->getDescription(); ?></p>
                     </div>
                     <div class="add_to_cart">
-                        <a class="btn btn-warning offset-md-1" type="submit" href="php_action/add_to_cart.php?id=<?= $dados->getId() ?>">Adicionar ao carrinho
+                        <a type="button" class="btn btn-warning offset-md-1" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $dados->getId() ?>">Adicionar ao carrinho
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
                                 <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
                             </svg>
@@ -68,7 +86,34 @@ $commentaryDao = new CommentaryDAO($pdo);
                     </div>
 
                 </div>
-                <!-- Modal -->
+
+
+
+                <!-- Modal Add Item to Cart -->
+                <div class="modal fade" id="exampleModal<?= $dados->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Observações do produto</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="php_action/add_to_cart.php?id=<?= $dados->getId() ?>">
+                                    <label>Quantidade:</label>
+                                    <input type="number" value="1" name="quantity"> x
+                                    <label>Observações a serem consideradas:</label>
+                                    <input type="text" placeholder="Ex: sem cebola" name="observation">
+                                    <button type="submit" class="btn btn-success">Adicionar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Company Product-->
                 <div class="modal fade" id="productModal<?= $dados->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -90,6 +135,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                         </div>
                     </div>
                 </div>
+
                 <!-- Info Product Modal -->
                 <div class="col-md-12 modal fade" id="infoProductModal<?= $dados->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">

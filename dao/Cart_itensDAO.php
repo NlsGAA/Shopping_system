@@ -54,6 +54,24 @@ class Cart_itensDAO implements Cart_action
         }
         return $products;
     }
+    function recordCustomerPurchase($user_id)
+    {
+        $bought_products = $this->takeItensByUserId($user_id);
+        foreach ($bought_products as $key => $bought_product) {
+            $purchased_items = $this->takeItenInfoByProductId($bought_product->getProduct_id());
+            foreach ($purchased_items as $key => $purchased_item) {
+                $sql = $this->pdo->prepare("INSERT INTO customer_purchase (title, description, value, user_id) VALUES (:title, :description, :value, :user_id)");
+                $sql->bindValue(':title', $purchased_item->getTitle());
+                $sql->bindValue(':description', $purchased_item->getDescription());
+                $sql->bindValue(':value', number_format($purchased_item->getValue(), 2));
+                $sql->bindValue(':user_id', $user_id);
+                $sql->execute();
+
+                $purchased_item->setId($this->pdo->lastInsertId());
+            }
+        }
+        return $purchased_item;
+    }
     function deleteItenById($product_id)
     {
         $sql = $this->pdo->prepare("DELETE FROM cart WHERE product_id = :id LIMIT 1");

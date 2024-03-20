@@ -6,6 +6,7 @@ class Product
     private $title;
     private $description;
     private float $value;
+    private string $purchase_date;
 
     public function setId($id)
     {
@@ -44,12 +45,22 @@ class Product
     {
         return number_format($this->value, 2);
     }
+    public function setPurchase_date($purchase_date)
+    {
+        $this->purchase_date = $purchase_date;
+    }
+
+    public function getPurchase_date()
+    {
+        return $this->purchase_date;
+    }
 }
 
 interface ProductDAOModel
 {
     public function add(Product $product);
     public function findAll();
+    public function findPurchaseHistory($user_id);
     public function findById($id);
     public function findByTitle($title);
     public function updateProduct(Product $product);
