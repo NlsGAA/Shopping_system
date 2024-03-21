@@ -30,7 +30,9 @@ if (isset($payment)) {
         'cod' => 651203
     );
     header('location: http://localhost/sistema_de_compra/home.php');
-} else {
+}
+
+if (!isset($_POST['deleteAllItens']) && !isset($payment)) {
     $_SESSION['message'] = array(
         'status' => false,
         'message' => 'Não foi possível esvaziar o carrinho',

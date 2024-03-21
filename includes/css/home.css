@@ -108,6 +108,17 @@ ul li:hover {
   margin: 30px;
   padding: 10px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto;
+  max-width: 290px;
+  height: 250px;
+}
+
+.add_to_cart {
+  align-self: center;
+  margin-top: auto;
 }
 
 .card-container {
