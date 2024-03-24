@@ -25,8 +25,8 @@ Caso opte por criar uma empresa, você terá acesso a todas as funcionalidade qu
 O sistema foi codado com as linguagens, PHP, Javascript, HTML, CSS, Bootstrap, utilizando um banco de dados MySql para
 armazenar os dados.
 
-*É recomendável utilizar a última versão do PHP para melhor funcionamento dos códigos, tendo em vista que é usado um banco
+\*É recomendável utilizar a última versão do PHP para melhor funcionamento dos códigos, tendo em vista que é usado um banco
 de dados, é obrigatório o uso de algum gerenciador de banco de dados, foi utilizando o XAMPP que disponibiliza tais
 funcionalidades citadas.
 
-O banco de dados está disponível nos arquivos para importação com todas as tabelas necessárias. *
+O banco de dados está disponível nos arquivos para importação com todas as tabelas necessárias. \*
