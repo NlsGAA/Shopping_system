@@ -10,7 +10,7 @@ if (isset($_SESSION['message'])) {
 }
 ?>
 
-<form action="php_action/createProduct.php" method="POST">
+<form action="php_action/createProduct.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Título:</label>
         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Título do anúncio" name="title">
@@ -22,6 +22,10 @@ if (isset($_SESSION['message'])) {
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Descrição:</label>
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Imagem:</label>
+        <input type="file" class="form-control" name="image">
     </div>
     <input type="submit" class="form-control" name="btn_create_product" value="Cadastrar Produto">
 </form>

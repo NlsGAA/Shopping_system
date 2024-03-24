@@ -18,6 +18,12 @@ if (isset($_POST['btn_edit_product'])) {
     $product->setValue($value);
     $product->setDescription($description);
 
+    $image = !empty($_FILES['image']['name']) ? $_FILES['image']['name'] : $product->getImage();
+    if (!empty($_FILES['image']['name'])) {
+        $image = $productDao->imageUpload();
+    }
+    $product->setImage($image);
+
     $productDao->updateProduct($product);
 
     $_SESSION['message'] = array(

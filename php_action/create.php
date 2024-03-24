@@ -53,7 +53,6 @@ if (isset($_POST['btn_register'])) {
     }
 
     if ($type_user === 'physical') {
-        echo 'oi';
         $sql = $pdo->prepare("INSERT INTO costumer_register (type_user, cpf, birthdate, address, email, password) VALUES (:type_user, :cpf, :birthdate, :address, :email, :password)");
         $sql->bindValue(':type_user', $type_user);
         $sql->bindValue(':cpf', $cpf);

@@ -10,16 +10,24 @@ $productDao = new ProductDAO($pdo);
 
 if (isset($_POST['btn_create_product'])) {
 
+    $image = !empty($_FILES['image']['name']) ?? "";
+    if (!empty($image)) {
+        $image = $productDao->imageUpload();
+    }
+
     $title = filter_input(INPUT_POST, 'title');
     $description = filter_input(INPUT_POST, 'description');
     $value = filter_input(INPUT_POST, 'value');
+    $company_id = $_SESSION['logado']['id'];
 
     if ($productDao->findByTitle($title) ===  false) {
 
         $newProduct = new Product;
+        $newProduct->setCompany_Id($company_id);
         $newProduct->setTitle($title);
         $newProduct->setDescription($description);
         $newProduct->setValue($value);
+        $newProduct->setImage($image);
 
         $productDao->add($newProduct);
 

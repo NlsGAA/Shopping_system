@@ -82,11 +82,15 @@ $cart_itens = $productDao->takeItensByUserId($_SESSION['logado']['id']);
             <h5>Opções:</h5>
             <div class="select_itens_option">
                 <ul>
+                    <a href="http://localhost/sistema_de_compra/">
+                        <li>Home</li>
+                    </a>
+                    <a type="button">
+                        <li class="cart_button">Meus Pedidos</li>
+                    </a>
                     <a href="http://localhost/sistema_de_compra/purchaseHistory.php">
                         <li>Histórico de compra</li>
                     </a>
-                    <li>Cartão</li>
-                    <li>Configurações</li>
                     <a href="../sistema_de_compra/accountInfo.php">
                         <li id="account_info.php">Dados da conta</li>
                     </a>
@@ -121,24 +125,24 @@ $cart_itens = $productDao->takeItensByUserId($_SESSION['logado']['id']);
 <script>
     //Cart menu left
     let left_menu_cart = document.querySelector("#cart_left_menu");
-    document.querySelector(".cart_button").onclick = function() {
-        if (left_menu_cart.style.display == "none") {
-            if (option_menu_left.style.display == "block") {
-                option_menu_left.style.display = "none";
-            }
-            left_menu_cart.style.display = "block";
-        } else {
-            left_menu_cart.style.display = "none";
-        }
-    };
-
-    //Account Info
+    let cart_buttons = document.querySelectorAll(".cart_button");
     let option_menu_left = document.querySelector("#option_menu_left");
-    document.querySelector(".hamburguer_option").onclick = function() {
-        if (option_menu_left.style.display == "none") {
-            if (left_menu_cart.style.display == "block") {
+
+    cart_buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            if (left_menu_cart.style.display === "none") {
+                left_menu_cart.style.display = "block";
+                option_menu_left.style.display = "none";
+            } else {
                 left_menu_cart.style.display = "none";
             }
+        });
+    });
+
+    //Account Info
+    document.querySelector(".hamburguer_option").onclick = function() {
+        if (option_menu_left.style.display == "none") {
+            left_menu_cart.style.display = "none";
             option_menu_left.style.display = "block";
         } else {
             option_menu_left.style.display = "none";

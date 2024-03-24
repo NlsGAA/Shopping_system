@@ -19,7 +19,7 @@ if (is_array($bought_items)) :
     usort($bought_items, 'sortByPurchaseDate');
 ?>
 
-    <table class="table">
+    <table class="table col-md-10 container">
         <thead>
             <tr>
                 <th scope="col">Título</th>

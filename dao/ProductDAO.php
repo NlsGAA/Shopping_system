@@ -10,12 +10,57 @@ class ProductDAO implements ProductDAOModel
         $this->pdo = $driver;
     }
 
+    public function imageUpload()
+    {
+        if (!empty($_FILES['image']['name'])) {
+
+            $fileName = $_FILES['image']['name'];
+            $fileType = $_FILES['image']['type'];
+            $tmpName = $_FILES['image']['tmp_name'];
+            $fileSize = $_FILES['image']['size'];
+            $errors = [];
+
+            $maxSize = 1024 * 1024 * 5; //aprox 5mb
+
+            if ($fileSize > $maxSize) {
+                $errors[] = "Tamanho do arquivo não suportado";
+            }
+
+            $acceptFile = ["png", "jpg", "jpeg"];
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            if (!in_array($extension, $acceptFile)) {
+                $errors[] = "Tipo de arquivo não permitido";
+            }
+
+            $acceptType = ["image/png", "image/jpg", "image/jpeg"];
+            if (!in_array($fileType, $acceptType)) {
+                $errors[] = "Tipo de arquivo não permitido";
+            }
+
+            if (!empty($errors)) {
+                foreach ($errors as $key => $error) {
+                    echo $error;
+                }
+            } else {
+                $path = __DIR__ . "/../image/";
+                $newName = hash('md5', $fileName) . "." . $extension;
+                if (move_uploaded_file($tmpName, $path . $newName)) {
+                    return $newName;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
     public function add(Product $product)
     {
-        $sql = $this->pdo->prepare("INSERT INTO itens (title, description, value) VALUES (:title, :description, :value)");
+        $sql = $this->pdo->prepare("INSERT INTO itens (company_id, title, description, value, image) VALUES (:company_id, :title, :description, :value, :image)");
+        $sql->bindValue(':company_id', $product->getCompany_Id());
         $sql->bindValue(':title', $product->getTitle());
         $sql->bindValue(':description', $product->getDescription());
         $sql->bindValue(':value', number_format($product->getValue(), 2));
+        $sql->bindValue(':image', $product->getImage());
         $sql->execute();
 
         $product->setId($this->pdo->lastInsertId());
@@ -33,9 +78,11 @@ class ProductDAO implements ProductDAOModel
 
                 $product = new Product;
                 $product->setId($value_productData['id']);
+                $product->setCompany_Id($value_productData['company_id']);
                 $product->setTitle($value_productData['title']);
                 $product->setDescription($value_productData['description']);
                 $product->setValue($value_productData['value']);
+                $product->setImage($value_productData['image']);
 
                 $productSelected[] = $product;
             }
@@ -86,6 +133,7 @@ class ProductDAO implements ProductDAOModel
             $product->setTitle($productData['title']);
             $product->setDescription($productData['description']);
             $product->setValue($productData['value']);
+            $product->setImage($productData['image']);
 
             return $product;
         } else {
@@ -115,12 +163,14 @@ class ProductDAO implements ProductDAOModel
     {
         $sql = $this->pdo->prepare("UPDATE itens SET title = :title,
                                                      value = :value,
-                                                     description = :description
+                                                     description = :description,
+                                                     image = :image
                                     WHERE id = :id");
 
         $sql->bindValue(':title', $product->getTitle());
         $sql->bindValue(':value', number_format($product->getValue(), 2));
         $sql->bindValue(':description', $product->getDescription());
+        $sql->bindValue(':image', $product->getImage());
         $sql->bindValue(':id', $product->getId());
         $sql->execute();
 

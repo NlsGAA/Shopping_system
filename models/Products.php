@@ -3,10 +3,12 @@
 class Product
 {
     private $id;
+    private $company_id;
     private $title;
     private $description;
     private float $value;
     private string $purchase_date;
+    private $image;
 
     public function setId($id)
     {
@@ -16,6 +18,15 @@ class Product
     public function getId()
     {
         return $this->id;
+    }
+    public function setCompany_Id($company_id)
+    {
+        $this->company_id = trim($company_id);
+    }
+
+    public function getCompany_Id()
+    {
+        return $this->company_id;
     }
 
     public function setTitle($title)
@@ -54,10 +65,20 @@ class Product
     {
         return $this->purchase_date;
     }
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
 }
 
 interface ProductDAOModel
 {
+    public function imageUpload();
     public function add(Product $product);
     public function findAll();
     public function findPurchaseHistory($user_id);

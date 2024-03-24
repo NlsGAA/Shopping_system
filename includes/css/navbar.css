@@ -4,3 +4,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.hamburguer_option {
+  margin-right: 30px;
+  transition: 0.4s;
+}
+
+.hamburguer_option:hover {
+  transition: 0.4s;
+  transform: translateY(-2px);
+}

@@ -99,6 +99,10 @@ ul li:hover {
   width: 100%;
 }
 
+.select_itens_option a {
+  text-decoration: none;
+}
+
 /* Estilo para os cards de produtos */
 .card {
   border: none;
@@ -125,14 +129,14 @@ ul li:hover {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .card-img-top {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   object-fit: cover;
-  /* height: 200px; */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 .card-body {

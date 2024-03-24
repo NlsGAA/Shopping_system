@@ -2,11 +2,11 @@
 session_start();
 
 include_once('includes/header.php');
-include_once('includes/login_verification.php');
 include_once('php_action/db_connect.php');
 require __DIR__ . "/dao/ProductDAO.php";
 require __DIR__ . "/dao/CommentaryDAO.php";
 include_once('includes/navbar.php');
+include_once('includes/login_verification.php');
 
 if (isset($_SESSION['message'])) {
     echo "<div class='action_message action_messagejs'>" . $_SESSION['message']['message'] . "</div>";
@@ -42,7 +42,7 @@ $commentaryDao = new CommentaryDAO($pdo);
         unset($_SESSION['payment']);
     endif; ?>
 
-    <div class="col-md-10 card-container flex" style="height: 100vh;">
+    <div class="col-md-10 card-container flex" style="height: auto;">
         <?php
         if (!empty($products)) {
 
@@ -56,7 +56,7 @@ $commentaryDao = new CommentaryDAO($pdo);
         ?>
                 <div class="card card-margin" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $dados->getId() ?>">
 
-                    <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
+                    <?php if ($_SESSION['logado']['type_user'] == 'legal' && $_SESSION['logado']['id'] == $dados->getCompany_Id()) : ?>
                         <div class="action_icon offset-md-8">
                             <a href="edit_product_form.php?id=<?= $dados->getId() ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="b i bi-pencil-fill" viewBox="0 0 16 16">
@@ -71,7 +71,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                         </div>
                     <?php endif; ?>
 
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="image/<?= $dados->getImage() ?>" class="card-img-top" alt="Imagem de <?= $dados->getTitle() ?>">
                     <div class="card-body">
                         <h4 class="card-text"><?= $dados->getTitle(); ?></h4>
                         <h4 class="iten_value"><?= 'R$', $dados->getValue(); ?></h4>
