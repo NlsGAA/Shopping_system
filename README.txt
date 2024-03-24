@@ -1,13 +1,15 @@
-Apresentação do projeto:
-
-O projeto é um sistema de compras simples, no qual, desejei mostrar meus conhecimentos até então,
-o mesmo não realiza transição de dinheiro, então qualquer compra ou ação tomada dentro do sistema é
-apenas uma ilustração para o usuário.
+##Idealização:
 
 A ideia inicial era o sistema ser utilizado por apenas uma loja, para que a mesma tenha um painel gerencial dos produtos,
 porém, pensando em crescer o projeto, tenho ideias futuras para criar novas versões do sistema, implementando a ideia de
 uma aba exclusiva para lojas, onde o usuário poderá escolher os produtos cadastrados apenas por aquela empresa, facilitando
 a escolha do usuário devido a sua preferência de empresa.
+
+**#Apresentação do projeto:**
+
+O projeto é um sistema de compras simples, no qual, desejei mostrar meus conhecimentos até então,
+o mesmo não realiza transição de dinheiro, então qualquer compra ou ação tomada dentro do sistema é
+apenas uma ilustração para o usuário.
 
 Você poderá escolher se registrar como usuário ou empresa/pessoa jurídica.
 
@@ -18,13 +20,13 @@ finalizar a compra.
 
 Caso opte por criar uma empresa, você terá acesso a todas as funcionalidade que um usuário possui, porém, conseguirá cadastrar produtos, editar ou deletar os produtos que já cadastrou.
 
-Informações técnicas:
+#Informações técnicas:
 
 O sistema foi codado com as linguagens, PHP, Javascript, HTML, CSS, Bootstrap, utilizando um banco de dados MySql para
 armazenar os dados.
 
-É recomendável utilizar a última versão do PHP para melhor funcionamento dos códigos, tendo em vista que é usado um banco
+*É recomendável utilizar a última versão do PHP para melhor funcionamento dos códigos, tendo em vista que é usado um banco
 de dados, é obrigatório o uso de algum gerenciador de banco de dados, foi utilizando o XAMPP que disponibiliza tais
 funcionalidades citadas.
 
-O banco de dados está disponível nos arquivos para importação com todas as tabelas necessárias. 
+O banco de dados está disponível nos arquivos para importação com todas as tabelas necessárias. *
