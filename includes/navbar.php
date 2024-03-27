@@ -32,3 +32,9 @@ if (isset($_POST['btn_home'])) {
         </div>
     </div>
 </nav>
+
+<?php if ($_SESSION['logado']['type_user'] === 'visitante') : ?>
+
+    <div class="action_messageFalse"> Para uma experiência completa do sistema, <a href="http://localhost/sistema_de_compra/register.php">faça login</a></div>
+
+<?php endif; ?>

@@ -39,6 +39,15 @@ body {
   padding: 5px;
 }
 
+.action_messageFalse {
+  text-align: center;
+  width: 100%;
+  background-color: #cc0000;
+  color: #99ffb8;
+  border: 1px solid #990000;
+  padding: 5px;
+}
+
 .overlay {
   position: fixed;
   top: 0;

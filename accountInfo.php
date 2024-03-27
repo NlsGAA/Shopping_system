@@ -18,8 +18,11 @@ if ($_SESSION['logado']['type_user'] === 'legal') {
     $data_user = json_decode($data_str);
 }
 
-$user = explode("@", $_SESSION['logado']['email']);
-$user = $user[0];
+if ($_SESSION['logado']['type_user'] !== 'visitante') {
+    $user = explode("@", $_SESSION['logado']['email']);
+    $user = $user[0];
+}
+
 
 ?>
 
@@ -66,6 +69,12 @@ $user = $user[0];
                 Nome Fantasia: <?= $data_user->fantasyName ?>
                 <hr>
                 Endereço: <?= $data_user->address ?>
+            <?php endif; ?>
+
+
+            <?php if ($_SESSION['logado']['type_user'] === 'visitante') : ?>
+                Visitante
+                <hr>
             <?php endif; ?>
 
         </div>

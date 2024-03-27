@@ -1,12 +1,15 @@
 <?php
 session_start();
+if (!isset($_SESSION['logado'])) {
+    $_SESSION['logado']['id'] = 999;
+    $_SESSION['logado']['type_user'] = 'visitante';
+}
 
 include_once('includes/header.php');
 include_once('php_action/db_connect.php');
 require __DIR__ . "/dao/ProductDAO.php";
 require __DIR__ . "/dao/CommentaryDAO.php";
 include_once('includes/navbar.php');
-include_once('includes/login_verification.php');
 
 if (isset($_SESSION['message'])) {
     echo "<div class='action_message action_messagejs'>" . $_SESSION['message']['message'] . "</div>";
