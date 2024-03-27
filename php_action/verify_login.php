@@ -8,7 +8,7 @@ if (isset($_POST['btn_login'])) {
 
     $email = filter_input(INPUT_POST, 'email');
     $passCrypt = filter_input(INPUT_POST, 'password');
-    $password = md5($passCrypt);
+    $password = filter_input(INPUT_POST, 'password');
 
     if (empty($email) or empty($password)) {
         $_SESSION['message'] = array(
@@ -19,12 +19,14 @@ if (isset($_POST['btn_login'])) {
         header('location: ../login.php');
     } else {
         $sql = $pdo->prepare(
-            "SELECT email FROM costumer_register WHERE email = :email 
+            "SELECT email, password FROM costumer_register WHERE email = :email 
             UNION 
-            SELECT email FROM company_register WHERE email = :email"
+            SELECT email, password FROM company_register WHERE email = :email"
         );
         $sql->bindValue(':email', $email);
         $sql->execute();
+        $passwordVerify = $sql->fetch();
+        $passwordVerify = ($passwordVerify['password']);
 
         if ($sql->rowCount() > 0) {
             $sql = $pdo->prepare(
@@ -33,13 +35,12 @@ if (isset($_POST['btn_login'])) {
                 SELECT id, email, type_user FROM company_register WHERE email = :email AND password = :password"
             );
             $sql->bindValue(':email', $email);
-            $sql->bindValue(':password', $password);
+            $sql->bindValue(':password', $passwordVerify);
             $success = $sql->execute();
 
             if ($sql->rowCount() == 1) {
                 $data_str = json_encode($sql->fetch(PDO::FETCH_ASSOC));
                 $data = json_decode($data_str);
-                // $dados = mysqli_fetch_array($result);
                 $_SESSION['logado'] = array(
                     'id' => $data->id,
                     'email' => $data->email,

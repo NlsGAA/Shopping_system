@@ -21,7 +21,7 @@ if (isset($_POST['btn_register'])) {
 
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
-    $password = md5($password);
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
 
     $verifyPhysicalRegister = $pdo->prepare("SELECT * FROM costumer_register WHERE email = :email");

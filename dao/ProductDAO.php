@@ -59,7 +59,7 @@ class ProductDAO implements ProductDAOModel
         $sql->bindValue(':company_id', $product->getCompany_Id());
         $sql->bindValue(':title', $product->getTitle());
         $sql->bindValue(':description', $product->getDescription());
-        $sql->bindValue(':value', number_format($product->getValue(), 2));
+        $sql->bindValue(':value', $product->getValue());
         $sql->bindValue(':image', $product->getImage());
         $sql->execute();
 
