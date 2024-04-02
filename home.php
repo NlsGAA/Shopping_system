@@ -26,8 +26,8 @@ $commentaryDao = new CommentaryDAO($pdo);
 <div class="row">
     <?php
     include_once('includes/left_menu.php');
-
-    if (isset($_SESSION['payment'])) : ?>
+    if (isset($_SESSION['payment'])) :
+    ?>
 
         <div class='overlay action_messagejs'>";
             <div class='payment_modal action_messagejs'>

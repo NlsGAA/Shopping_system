@@ -23,6 +23,9 @@ if (isset($_POST['btn_home'])) {
                 <li class="nav-item">
                     <a class="nav-link cart_button" type="button">Meus Pedidos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link cart_button" href="store.php">Lojas</a>
+                </li>
                 <?php if ($_SESSION['logado']['type_user'] == 'legal') : ?>
                     <li class="nav-item">
                         <a class="nav-link btn btn-outline-success" href="product_form.php">+ Adicionar Produtos</a>
@@ -35,6 +38,6 @@ if (isset($_POST['btn_home'])) {
 
 <?php if ($_SESSION['logado']['type_user'] === 'visitante') : ?>
 
-    <div class="action_messageFalse"> Para uma experiência completa do sistema, <a href="http://localhost/sistema_de_compra/register.php">faça login</a></div>
+    <div class="action_messageFalse"> Para uma experiência completa do sistema, <a href="http://localhost/sistema_de_compra/login.php">faça login</a></div>
 
 <?php endif; ?>
