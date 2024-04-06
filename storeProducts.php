@@ -3,10 +3,12 @@ session_start();
 include_once __DIR__ . "/includes/header.php";
 include_once('php_action/db_connect.php');
 require __DIR__ . "/dao/ProductDAO.php";
+require __DIR__ . "/dao/CommentaryDAO.php";
 include_once('includes/navbar.php');
 include_once('includes/left_menu.php');
 
 $productDao = new ProductDAO($pdo);
+$commentaryDao = new CommentaryDAO($pdo);
 
 $company_id = filter_input(INPUT_GET, 'id');
 $storeProducts = $productDao->findByCompanyId($company_id);
@@ -25,7 +27,14 @@ $storeProducts = $productDao->findByCompanyId($company_id);
     </div>
 </div>
 <div class="favRowProducts">
-    <?php foreach ($storeProducts as $key => $storeProduct) : ?>
+    <?php foreach ($storeProducts as $key => $storeProduct) :
+        $commentary = $commentaryDao->commentaryInProduct($storeProduct->getId());
+        if (is_array($commentary)) {
+            $num_comments = count($commentary);
+        } else {
+            $num_comments = 0;
+        }
+    ?>
 
         <div class="card card-margin" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $storeProduct->getId() ?>">
             <?php if ($_SESSION['logado']['type_user'] == 'legal' && $_SESSION['logado']['id'] == $storeProduct->getCompany_Id()) : ?>
@@ -96,8 +105,113 @@ $storeProducts = $productDao->findByCompanyId($company_id);
             </div>
         </div>
 
+        <!-- Modal Add Item to Cart -->
+        <div class="modal fade" id="exampleModal<?= $storeProduct->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Observações do produto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="php_action/add_to_cart.php?id=<?= $storeProduct->getId() ?>">
+                            <label>Quantidade:</label>
+                            <input type="number" value="1" name="quantity"> x
+                            <label>Observações a serem consideradas:</label>
+                            <input type="text" placeholder="Ex: sem cebola" name="observation">
+                            <button type="submit" class="btn btn-success">Adicionar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Company Product-->
+        <div class="modal fade" id="productModal<?= $storeProduct->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir item?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4><?= $storeProduct->getTitle(), ' ', 'R$', $storeProduct->getValue() ?></h4>
+                        <span><?= $storeProduct->getDescription() ?></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <form action="php_action/delete.php" method="POST">
+                            <input type="hidden" name="id" value="<?= $storeProduct->getId() ?>">
+                            <button type="submit" name="btn_delete_product" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Product Modal -->
+        <div class="col-md-12 modal fade" id="infoProductModal<?= $storeProduct->getId() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title"><?= $storeProduct->getTitle() ?> - R$ <?= $storeProduct->getValue() ?></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="lead"><?= $storeProduct->getDescription() ?></p>
+                        <hr>
+                        <h5 class="mb-3">Comentários (<?= $num_comments ?>) :</h5>
+                        <div class="comments">
+                            <?php
+                            if ($num_comments > 0) :
+                                foreach ($commentary as $key_commentary => $commentary_data) :
+                            ?>
+                                    <div class="comment mb-3 d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold"><?= $commentary_data->getAuthor() . ' ' . date("H:i:s", strtotime($commentary_data->getCommentaryDate())) ?></span>
+                                        <?php if ($_SESSION['logado']['id'] === $commentary_data->getAuthorId()) : ?>
+                                            <span class="dropdown">
+                                                <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                                    </svg>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="php_action/deleteCommentary.php?id= <?= $commentary_data->getId() ?>">Excluir</a></li>
+                                                </ul>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <p class='text-muted'><?= $commentary_data->getCommentary() ?></p>
+                            <?php
+                                endforeach;
+                            else :
+                                echo "<p class='text-muted'>Não há comentário.</p>";
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer d-flex">
+                        <form action="php_action/user_product_opnion.php" method="POST" class="flex-grow-1">
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Deixe seu comentário:</label>
+                                <textarea class="form-control" id="comment" name="user_commentary" rows="3" required></textarea>
+                            </div>
+                            <input type="hidden" name="id" value="<?= $storeProduct->getId() ?>">
+                            <button type="submit" name="btn_user_product_opnion" class="btn btn-primary">Publicar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php endforeach; ?>
 </div>
+
 
 <div class="toast">
     <p>Comentário enviado</p>
