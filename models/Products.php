@@ -6,7 +6,7 @@ class Product
     private $company_id;
     private $title;
     private $description;
-    private float $value;
+    private $value;
     private string $purchase_date;
     private $image;
 
@@ -49,12 +49,12 @@ class Product
     }
     public function setValue($value)
     {
-        $this->value = $value;
+        $this->value = intval($value);
     }
 
     public function getValue()
     {
-        return number_format($this->value, 2);
+        return number_format($this->value, 2, ',', '.');
     }
     public function setPurchase_date($purchase_date)
     {

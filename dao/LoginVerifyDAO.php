@@ -44,7 +44,8 @@ class LoginVerifyDAO implements LoginVerifyDAOModel
     }
     public function userInformationValidate($email, $password, $passCrypt)
     {
-        if (password_verify($password, $passCrypt)) {
+        $passwordMd5 = md5($password);
+        if (password_verify($password, $passCrypt) || $passwordMd5 === $passCrypt) {
             $sql = $this->pdo->prepare(
                 "SELECT id, email, type_user FROM costumer_register WHERE email = :email AND password = :password 
                 UNION 

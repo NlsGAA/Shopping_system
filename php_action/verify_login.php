@@ -1,8 +1,8 @@
 <?php
-session_start();
-
 include_once __DIR__ . ("/db_connect.php");
 include_once __DIR__ . ("/../dao/LoginVerifyDAO.php");
+session_start();
+
 $verify = new LoginVerifyDAO($pdo);
 
 if (isset($_POST['btn_login'])) {

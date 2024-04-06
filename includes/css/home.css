@@ -129,10 +129,6 @@ ul li:hover {
   height: 250px;
 }
 
-.action_icon {
-  z-index: 99999;
-}
-
 .add_to_cart {
   align-self: center;
   margin-top: auto;

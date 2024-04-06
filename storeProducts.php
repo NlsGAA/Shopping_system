@@ -15,7 +15,14 @@ $storeProducts = $productDao->findByCompanyId($company_id);
 
 <div class="favRowTop">
     <h2>Favoritos ❤️:</h2>
-    <button>Deixe um comentário para a loja</button>
+    <div class="companyCommentary">
+        <button id="companyCommentaryButton">Deixe um comentário para a loja</button>
+        <div class="form-floating" style="display: none">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+            <label for="floatingTextarea">Feedback pra loja:</label>
+            <button onclick="showToast()">Enviar comentário</button>
+        </div>
+    </div>
 </div>
 <div class="favRowProducts">
     <?php foreach ($storeProducts as $key => $storeProduct) : ?>
@@ -92,6 +99,10 @@ $storeProducts = $productDao->findByCompanyId($company_id);
     <?php endforeach; ?>
 </div>
 
+<div class="toast">
+    <p>Comentário enviado</p>
+</div>
+
 <footer>
     <h4>Sobre a loja:</h4>
     <div class="companyInfoFooter">
@@ -109,5 +120,27 @@ $storeProducts = $productDao->findByCompanyId($company_id);
         </div>
     </div>
 </footer>
+
+<script>
+    let commentaryFloating = document.querySelector('.form-floating');
+    let textAreaCommentary = document.querySelector('#floatingTextarea');
+
+    document.querySelector('#companyCommentaryButton').addEventListener('click', function() {
+        if (commentaryFloating.style.display === 'none') {
+            commentaryFloating.style.display = 'block';
+        } else {
+            commentaryFloating.style.display = 'none';
+        }
+    })
+
+    function showToast() {
+        var toast = document.querySelector(".toast");
+        toast.style.display = "block";
+        textAreaCommentary.value = "";
+        setTimeout(function() {
+            toast.style.display = "none";
+        }, 5 * 1000);
+    }
+</script>
 
 <?php include_once __DIR__ . "/includes/footer.php"; ?>
