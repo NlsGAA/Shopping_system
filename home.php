@@ -73,8 +73,8 @@ $commentaryDao = new CommentaryDAO($pdo);
                             </a>
                         </div>
                     <?php endif; ?>
-
                     <img src="image/<?= $dados->getImage() ?>" class="card-img-top" alt="Imagem de <?= $dados->getTitle() ?>">
+
                     <div class="card-body">
                         <h4 class="card-text"><?= $dados->getTitle(); ?></h4>
                         <h4 class="iten_value"><?= 'R$', $dados->getValue(); ?></h4>

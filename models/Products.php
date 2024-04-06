@@ -83,6 +83,7 @@ interface ProductDAOModel
     public function findAll();
     public function findPurchaseHistory($user_id);
     public function findById($id);
+    public function findByCompanyId($company_id);
     public function findByTitle($title);
     public function updateProduct(Product $product);
     public function deleteProduct($id);

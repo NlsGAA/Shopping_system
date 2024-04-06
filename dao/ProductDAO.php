@@ -102,9 +102,6 @@ class ProductDAO implements ProductDAOModel
         if ($sql->rowCount() > 0) {
             $commentaryData = $sql->fetchAll(PDO::FETCH_ASSOC);
             foreach ($commentaryData as $key_commentaryData => $value_commentaryData) {
-                // $dateTime = $value_commentaryData['purchase_date'];
-                // $dateObject = DateTime::createFromFormat('d/m/Y H:i:s', $dateTime);
-                // $date = $dateObject->format('d/m/Y H:i:s');
 
                 $commentary = new Product;
                 $commentary->setId($value_commentaryData['id']);
@@ -139,6 +136,29 @@ class ProductDAO implements ProductDAOModel
         } else {
             return false;
         }
+    }
+    public function findByCompanyId($company_id)
+    {
+        $product = $this->pdo->query("SELECT * FROM itens WHERE company_id = '$company_id'");
+        $storeProducts = [];
+
+        if ($product->rowCount() > 0) {
+            $products = $product->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($products as $key => $storeProduct) {
+                $item = new Product;
+                $item->setId($storeProduct['id']);
+                $item->setTitle($storeProduct['title']);
+                $item->setDescription($storeProduct['description']);
+                $item->setValue($storeProduct['value']);
+                $item->setImage($storeProduct['image']);
+
+                $storeProducts[] = $item;
+            }
+        } else {
+            return 0;
+        }
+        return $storeProducts;
     }
     public function findByTitle($title)
     {

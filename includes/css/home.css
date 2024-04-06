@@ -129,6 +129,10 @@ ul li:hover {
   height: 250px;
 }
 
+.action_icon {
+  z-index: 99999;
+}
+
 .add_to_cart {
   align-self: center;
   margin-top: auto;
@@ -144,7 +148,8 @@ ul li:hover {
 .card-img-top {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  object-fit: cover;
+  object-fit: fill;
+  max-height: 180px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 

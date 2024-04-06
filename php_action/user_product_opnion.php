@@ -12,6 +12,9 @@ if (isset($_POST['btn_user_product_opnion'])) {
 
     $product_id = filter_input(INPUT_POST, 'id');
     $user_name = $_SESSION['logado']['email'];
+    if ($_SESSION['logado']['type_user'] === 'visitante') {
+        $user_name = 'Visitante';
+    }
     $author_id = $_SESSION['logado']['id'];
     $commentary_id = uniqid('commentary_', true);
     $commentary = filter_input(INPUT_POST, 'user_commentary');
