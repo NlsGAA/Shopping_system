@@ -10,7 +10,7 @@ $productDao = new ProductDAO($pdo);
 
 if (isset($_POST['btn_create_product'])) {
 
-    if (!empty($_FILES)) {
+    if (!empty($_FILES['image']['name'])) {
         $fileName = $_FILES['image']['name'];
         $fileType = $_FILES['image']['type'];
         $tmpName = $_FILES['image']['tmp_name'];
@@ -33,6 +33,7 @@ if (isset($_POST['btn_create_product'])) {
         }
         exit;
     }
+
 
     $title = filter_input(INPUT_POST, 'title');
     $description = filter_input(INPUT_POST, 'description');

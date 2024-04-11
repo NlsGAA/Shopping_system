@@ -19,16 +19,28 @@ if (isset($_POST['btn_edit_product'])) {
     $product->setDescription($description);
     $image = $product->getImage();
 
-    if (!empty($_FILES)) {
+    if (!empty($_FILES['image']['name'])) {
         $fileName = $_FILES['image']['name'];
         $fileType = $_FILES['image']['type'];
         $tmpName = $_FILES['image']['tmp_name'];
         $fileSize = $_FILES['image']['size'];
         $errors = $productDao->validateImage($fileName, $fileType, $fileSize);
 
-        if (!empty($errors)) {
+        if (empty($errors)) {
             $image = $productDao->uploadImage($fileName, $tmpName);
         }
+    }
+
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            $_SESSION['message'] = array(
+                'status' => false,
+                'message' => $error,
+                'cod' => 00033
+            );
+            header("location: http://localhost/sistema_de_compra/product_form.php");
+        }
+        exit;
     }
     $product->setImage($image);
 
