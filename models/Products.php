@@ -78,7 +78,8 @@ class Product
 
 interface ProductDAOModel
 {
-    public function imageUpload();
+    public function validateImage($fileName, $fileType, $fileSize);
+    public function uploadImage($fileName, $tmpName);
     public function add(Product $product);
     public function findAll();
     public function findPurchaseHistory($user_id);

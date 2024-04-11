@@ -17,10 +17,18 @@ if (isset($_POST['btn_edit_product'])) {
     $product->setTitle($title);
     $product->setValue($value);
     $product->setDescription($description);
+    $image = $product->getImage();
 
-    $image = !empty($_FILES['image']['name']) ? $_FILES['image']['name'] : $product->getImage();
-    if (!empty($_FILES['image']['name'])) {
-        $image = $productDao->imageUpload();
+    if (!empty($_FILES)) {
+        $fileName = $_FILES['image']['name'];
+        $fileType = $_FILES['image']['type'];
+        $tmpName = $_FILES['image']['tmp_name'];
+        $fileSize = $_FILES['image']['size'];
+        $errors = $productDao->validateImage($fileName, $fileType, $fileSize);
+
+        if (!empty($errors)) {
+            $image = $productDao->uploadImage($fileName, $tmpName);
+        }
     }
     $product->setImage($image);
 

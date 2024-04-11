@@ -6,8 +6,9 @@ include_once('includes/header.php');
 include_once('includes/navbar.php');
 
 if (isset($_SESSION['message'])) {
-    echo $_SESSION['message']['message'];
+    echo "<div class='action_message action_messagejs'>" . $_SESSION['message']['message'] . "</div>";
 }
+unset($_SESSION['message']);
 ?>
 
 <form action="php_action/createProduct.php" method="POST" enctype="multipart/form-data">

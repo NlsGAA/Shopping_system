@@ -10,49 +10,37 @@ class ProductDAO implements ProductDAOModel
         $this->pdo = $driver;
     }
 
-    public function imageUpload()
+    public function validateImage($fileName, $fileType, $fileSize)
     {
-        if (!empty($_FILES['image']['name'])) {
+        $errors = [];
 
-            $fileName = $_FILES['image']['name'];
-            $fileType = $_FILES['image']['type'];
-            $tmpName = $_FILES['image']['tmp_name'];
-            $fileSize = $_FILES['image']['size'];
-            $errors = [];
-
-            $maxSize = 1024 * 1024 * 5; //aprox 5mb
-
-            if ($fileSize > $maxSize) {
-                $errors[] = "Tamanho do arquivo não suportado";
-            }
-
-            $acceptFile = ["png", "jpg", "jpeg"];
-            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            if (!in_array($extension, $acceptFile)) {
-                $errors[] = "Tipo de arquivo não permitido";
-            }
-
-            $acceptType = ["image/png", "image/jpg", "image/jpeg"];
-            if (!in_array($fileType, $acceptType)) {
-                $errors[] = "Tipo de arquivo não permitido";
-            }
-
-            if (!empty($errors)) {
-                foreach ($errors as $key => $error) {
-                    echo $error;
-                }
-            } else {
-                $path = __DIR__ . "/../image/";
-                $newName = hash('md5', $fileName) . "." . $extension;
-                if (move_uploaded_file($tmpName, $path . $newName)) {
-                    return $newName;
-                } else {
-                    return false;
-                }
-            }
+        $maxSize = 1024 * 1024 * 5; //aprox 5mb
+        if ($fileSize > $maxSize) {
+            $errors[] = "Tamanho do arquivo não suportado";
         }
-    }
 
+        $acceptFile = ["png", "jpg", "jpeg"];
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        if (!in_array($extension, $acceptFile)) {
+            $errors[] = "Tipo de arquivo não permitido";
+        }
+
+        $acceptType = ["image/png", "image/jpg", "image/jpeg"];
+        if (!in_array($fileType, $acceptType)) {
+            $errors[] = "Tipo de arquivo não permitido";
+        }
+        return $errors;
+    }
+    public function uploadImage($fileName, $tmpName)
+    {
+        $path = __DIR__ . "/../image/";
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $newName = hash('md5', $fileName) . "." . $extension;
+        if (move_uploaded_file($tmpName, $path . $newName)) {
+            return $newName;
+        }
+        return false;
+    }
     public function add(Product $product)
     {
         $sql = $this->pdo->prepare("INSERT INTO itens (company_id, title, description, value, image) VALUES (:company_id, :title, :description, :value, :image)");
