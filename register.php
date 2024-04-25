@@ -21,7 +21,7 @@ if (isset($_SESSION['message'])) {
 
     <div class="container">
         <h2 class="text-center mb-4">Faça o cadastro</h2>
-        <form action="php_action/create.php" method="POST">
+        <form action="php_action/createUser.php" method="POST">
             <div class="form-group">
                 <label for="type">Tipo de usuário:</label>
                 <select class="form-control" id="type" name="type" onchange="toggleFields()">
