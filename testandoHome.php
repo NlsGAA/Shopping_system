@@ -5,7 +5,7 @@ if (!isset($_SESSION['logado'])) {
     $_SESSION['logado']['type_user'] = 'visitante';
 }
 
-include_once('includes/header.php');
+include_once ('includes/header.php');
 include_once('php_action/db_connect.php');
 require __DIR__ . "/dao/ProductDAO.php";
 require __DIR__ . "/dao/CommentaryDAO.php";
@@ -17,10 +17,9 @@ if (isset($_SESSION['message'])) {
 unset($_SESSION['message']);
 
 $productDao = new ProductDAO($pdo);
-$products = $productDao->findAll();
-
 $commentaryDao = new CommentaryDAO($pdo);
 
+$products = $productDao->findAll();
 ?>
 
 <div class="row">
@@ -51,10 +50,9 @@ $commentaryDao = new CommentaryDAO($pdo);
 
             foreach ($products as $key_product => $dados) :
                 $commentary = $commentaryDao->commentaryInProduct($dados->getId());
+                $num_comments = 0;
                 if (is_array($commentary)) {
                     $num_comments = count($commentary);
-                } else {
-                    $num_comments = 0;
                 }
         ?>
                 <div class="card card-margin" type="button" data-bs-toggle="modal" data-bs-target="#infoProductModal<?= $dados->getId() ?>">
@@ -103,7 +101,7 @@ $commentaryDao = new CommentaryDAO($pdo);
                             <div class="modal-body">
                                 <form method="POST" action="php_action/add_to_cart.php?id=<?= $dados->getId() ?>">
                                     <label>Quantidade:</label>
-                                    <input type="number" value="1" name="quantity"> x
+                                    <input type="number" value="1" name="quantity">
                                     <label>Observações a serem consideradas:</label>
                                     <input type="text" placeholder="Ex: sem cebola" name="observation">
                                     <button type="submit" class="btn btn-success">Adicionar</button>

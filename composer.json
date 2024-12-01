@@ -3,11 +3,13 @@
   "description": "Shopping system for company",
   "autoload": {
     "psr-4": {
-      "Nico\\SistemaDeCompra\\": "src/"
+      "app\\": "app"
     },
     "files": [
       "php_action/db_connect.php"
     ]
   },
-  "require": {}
+  "require": {
+    "league/plates": "^3.6"
+  }
 }
